@@ -1,17 +1,34 @@
 // swift-tools-version: 6.0
 import PackageDescription
-import ProjectDescriptionHelpers
 
+
+///MARK: - PackageSettings
 #if TUIST
-import ProjectDescription
+import struct ProjectDescription.PackageSettings
+import enum ProjectDescription.Product
+import enum ProjectDescription.Environment
+
+
+func resolvedFramework() -> ProjectDescription.Product {
+    if case let .string(v) = Environment.productType {
+        switch v.lowercased() {
+        case "static":
+            return .staticFramework
+        default:
+            return .framework
+        }
+    }
+    return .framework
+}
 
 let packageSettings = PackageSettings(
     productTypes: [
-        Dependencies.fontsPackage.name: .framework
+        Dependencies.fontsPackage.name: resolvedFramework()
     ]
 )
 #endif
 
+/// MARK: - Package
 let package = Package(
     name: "UnsplashImages",
     dependencies: [
@@ -19,3 +36,51 @@ let package = Package(
                  branch: Dependencies.fontsPackage.requirement.string)
     ]
 )
+
+/// MARK: - Dependencies
+struct Dependencies {
+    
+    static let fontsPackage = PackageModel(
+        name: "FontsPackage",
+        url: "https://github.com/TimurkaevMalik/FontsPackage.git",
+        requirement: .branch("main")
+    )
+}
+
+struct PackageModel: Sendable {
+    let name: String
+    let url: String
+    let requirement: Requirement
+    
+    init(name: String, url: String, requirement: Requirement) {
+        self.name = name
+        self.url = url
+        self.requirement = requirement
+    }
+    
+    public enum Requirement: Sendable{
+        case version(Version)
+        case branch(String)
+        
+        var string: String {
+            switch self {
+                
+            case .version(let version):
+                return version.stringValue
+                
+            case .branch(let string):
+                return string
+            }
+        }
+    }
+}
+
+extension Version {
+    var stringValue: String {
+        let major = "\(major)"
+        let minor = "\(minor)"
+        let patch = "\(patch)"
+        
+        return major + "." + minor + "." + patch
+    }
+}
