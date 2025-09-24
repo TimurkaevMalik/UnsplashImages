@@ -1,27 +1,13 @@
 // swift-tools-version: 6.0
 import PackageDescription
+import ProjectDescriptionHelpers
 
 #if TUIST
 import ProjectDescription
-import ProjectDescriptionHelpers
-
-func resolvedProduct() -> ProjectDescription.Product {
-    if case let .string(v) = Environment.productType {
-        switch v.lowercased() {
-        case "static", "static-framework", "staticframework":
-            return .staticFramework
-        case "framework", "dynamic", "dynamic-framework":
-            return .framework
-        default:
-            return .framework
-        }
-    }
-    return .framework
-}
 
 let packageSettings = PackageSettings(
     productTypes: [
-        Dependencies.fontsPackage.name: resolvedProduct()
+        Dependencies.fontsPackage.name: .framework
     ]
 )
 #endif
