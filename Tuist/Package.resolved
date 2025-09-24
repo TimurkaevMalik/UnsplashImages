@@ -1,0 +1,15 @@
+{
+  "originHash" : "888224b8a5a74ce9143dbce9d1e7890cde54b7f48ac3ee7b96e0c9a919d9f48c",
+  "pins" : [
+    {
+      "identity" : "fontspackage",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/TimurkaevMalik/FontsPackage.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "e19104dc52b287152900213492d1d5cb71ec7945"
+      }
+    }
+  ],
+  "version" : 3
+}
