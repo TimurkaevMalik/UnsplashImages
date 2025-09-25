@@ -6,7 +6,7 @@ let appName = ProjectConstants.appName
 
 let project = Project(
     name: appName,
-    settings: .settings(base: baseSettings),
+    settings: .settings(base: BuildFlags.base),
     targets: [
         Targets.appTarget
     ]

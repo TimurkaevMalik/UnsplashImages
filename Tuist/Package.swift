@@ -1,7 +1,6 @@
 // swift-tools-version: 6.0
 import PackageDescription
 
-
 ///MARK: - PackageSettings
 #if TUIST
 import struct ProjectDescription.PackageSettings
@@ -11,7 +10,7 @@ import ProjectDescriptionHelpers
 
 let packageSettings = PackageSettings(
     productTypes: [
-        Dependencies.fontsPackage.name: resolvedFramework()
+        SPMDependency.fontsPackage.name: resolvedFramework()
     ]
 )
 #endif
@@ -20,13 +19,13 @@ let packageSettings = PackageSettings(
 let package = Package(
     name: "UnsplashImages",
     dependencies: [
-        .package(url: Dependencies.fontsPackage.url,
-                 branch: Dependencies.fontsPackage.requirement.string)
+        .package(url: SPMDependency.fontsPackage.url,
+                 branch: SPMDependency.fontsPackage.requirement.string)
     ]
 )
 
 /// MARK: - Dependencies
-struct Dependencies {
+fileprivate enum SPMDependency {
     
     static let fontsPackage = PackageModel(
         name: "FontsPackage",
@@ -35,7 +34,7 @@ struct Dependencies {
     )
 }
 
-struct PackageModel: Sendable {
+fileprivate struct PackageModel: Sendable {
     let name: String
     let url: String
     let requirement: Requirement
@@ -63,7 +62,7 @@ struct PackageModel: Sendable {
     }
 }
 
-extension Version {
+fileprivate extension Version {
     var stringValue: String {
         let major = "\(major)"
         let minor = "\(minor)"

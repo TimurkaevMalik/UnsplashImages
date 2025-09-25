@@ -7,8 +7,8 @@
 
 import ProjectDescription
 
-public struct Dependencies {
-    
+
+public enum SPMDependency {
     public static let fontsPackage = PackageModel(
         name: "FontsPackage",
         url: "https://github.com/TimurkaevMalik/FontsPackage.git",

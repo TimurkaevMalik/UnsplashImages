@@ -8,6 +8,7 @@
 
 import ProjectDescription
 
+
 public struct ProjectConstants {
     public static let appName = "UnsplashImages"
     public static let bundleID = "dev.tuist.UnsplashImages"
