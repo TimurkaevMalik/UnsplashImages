@@ -7,19 +7,7 @@ import PackageDescription
 import struct ProjectDescription.PackageSettings
 import enum ProjectDescription.Product
 import enum ProjectDescription.Environment
-
-
-func resolvedFramework() -> ProjectDescription.Product {
-    if case let .string(v) = Environment.productType {
-        switch v.lowercased() {
-        case "static":
-            return .staticFramework
-        default:
-            return .framework
-        }
-    }
-    return .framework
-}
+import ProjectDescriptionHelpers
 
 let packageSettings = PackageSettings(
     productTypes: [
