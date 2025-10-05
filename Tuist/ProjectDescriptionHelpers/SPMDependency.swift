@@ -9,10 +9,23 @@ import ProjectDescription
 
 
 public enum SPMDependency {
-    public static let fontsPackage = PackageModel(
-        name: "FontsPackage",
-        url: "https://github.com/TimurkaevMalik/FontsPackage.git",
-        requirement: .branch("main")
+    static let snapKit = PackageModel(
+        name: "SnapKit",
+        url: "https://github.com/SnapKit/SnapKit.git",
+        requirement: .version(.init(5, 7, 0))
+    )
+
+    // MARK: - My own libraries
+    static let coreKit = PackageModel(
+        name: "CoreKit",
+        url: "https://github.com/TimurkaevMalik/CoreKit.git",
+        requirement: .version(.init(2, 0, 0))
+    )
+    
+    static let unspAuthorization = PackageModel(
+        name: "UnspAuthorization",
+        url: "https://github.com/TimurkaevMalik/UnspAuthorization.git",
+        requirement: .branch("master")
     )
 }
 

@@ -21,7 +21,11 @@ public enum Targets {
             ]),
         sources: [Source.appSources],
         resources: [Resource.appResources],
-        dependencies: [.external(name: SPMDependency.fontsPackage.name)],
+        dependencies: [
+            .external(name: SPMDependency.snapKit.name),
+            .external(name: SPMDependency.coreKit.name),
+            .external(name: SPMDependency.unspAuthorization.name)
+        ],
         settings: .settings(base: BuildFlags.base),
     )
 }

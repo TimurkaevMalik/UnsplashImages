@@ -10,7 +10,9 @@ import ProjectDescriptionHelpers
 
 let packageSettings = PackageSettings(
     productTypes: [
-        SPMDependency.fontsPackage.name: resolvedFramework()
+        SPMDependency.coreKit.name: .framework,
+        SPMDependency.snapKit.name: .framework,
+        SPMDependency.unspAuthorization.name: .framework
     ]
 )
 #endif
@@ -19,18 +21,33 @@ let packageSettings = PackageSettings(
 let package = Package(
     name: "UnsplashImages",
     dependencies: [
-        .package(url: SPMDependency.fontsPackage.url,
-                 branch: SPMDependency.fontsPackage.requirement.string)
+        .make(from: SPMDependency.snapKit),
+        .make(from: SPMDependency.coreKit),
+        .make(from: SPMDependency.unspAuthorization),
     ]
 )
 
+
 /// MARK: - Dependencies
 fileprivate enum SPMDependency {
+    static let snapKit = PackageModel(
+        name: "SnapKit",
+        url: "https://github.com/SnapKit/SnapKit.git",
+        requirement: .version(.init(5, 7, 0))
+    )
     
-    static let fontsPackage = PackageModel(
-        name: "FontsPackage",
-        url: "https://github.com/TimurkaevMalik/FontsPackage.git",
-        requirement: .branch("main")
+    // MARK: - My libraries
+    static let coreKit = PackageModel(
+        name: "CoreKit",
+        url: "https://github.com/TimurkaevMalik/CoreKit.git",
+        requirement: .version(.init(2, 0, 0))
+    )
+    
+    // MARK: - My features
+    static let unspAuthorization = PackageModel(
+        name: "UnspAuthorization",
+        url: "https://github.com/TimurkaevMalik/UnspAuthorization.git",
+        requirement: .branch("master")
     )
 }
 
@@ -69,5 +86,23 @@ fileprivate extension Version {
         let patch = "\(patch)"
         
         return major + "." + minor + "." + patch
+    }
+    
+    init(string: String) {
+        self.init(stringLiteral: string)
+    }
+}
+
+fileprivate extension Package.Dependency {
+    static func make(from package: PackageModel) -> Package.Dependency {
+        let url = package.url
+        
+        switch package.requirement {
+            
+        case .version(let value):
+                return .package(url: url, from: value)
+        case .branch(let name):
+                return .package(url: url, branch: name)
+        }
     }
 }
